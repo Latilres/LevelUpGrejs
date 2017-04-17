@@ -9,6 +9,7 @@ public class MunnieAddScreen {
 
     private JFrame thisWindow;
     JComboBox listOfMunnies;
+    String pickedMunnie;
 
     MunnieAddScreen(JFrame theWindow){
         this.thisWindow = theWindow;
@@ -22,12 +23,13 @@ public class MunnieAddScreen {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        thisWindow.setLayout(new BorderLayout());
+        thisWindow.setLayout(new GridBagLayout());
         thisWindow.pack();
         thisWindow.setVisible(true);
     }
 
     private void createTheAddMunniesPart(){
+        GridBagConstraints gridBag = new GridBagConstraints();
         JPanel moreMunnies = new JPanel();
         ArrayList<String> theMunnies;
         int nrOfMunnies;
@@ -46,8 +48,18 @@ public class MunnieAddScreen {
         listOfMunnies.setSelectedIndex(nrOfMunnies-1);
         listOfMunnies.addActionListener(e -> {
             JComboBox cb = (JComboBox)e.getSource();
-            String pickedMunnie = (String)cb.getSelectedItem();
+            pickedMunnie = (String)cb.getSelectedItem();
         });
+        //moreMunnies.add(listOfMunnies);
+
+        gridBag.gridx = 0;
+        gridBag.gridy = 0;
+        gridBag.fill = GridBagConstraints.HORIZONTAL;
+        gridBag.anchor = GridBagConstraints.CENTER;
+        moreMunnies.add(listOfMunnies, gridBag);
+        gridBag.gridy++;
+        gridBag.insets = new Insets(50,0,0,0);
+        
     }
 
     private ArrayList<String> getListOfFiles(){

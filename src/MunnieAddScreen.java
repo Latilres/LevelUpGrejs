@@ -59,15 +59,15 @@ public class MunnieAddScreen implements ActionListener, FocusListener {
 
         // rutnätet som drop-down, munnie-fältet och add-knapp
         gridBag.fill = GridBagConstraints.HORIZONTAL;
-        //gridBag.anchor = GridBagConstraints.CENTER;
+        gridBag.anchor = GridBagConstraints.CENTER;
         gridBag.weightx = 0.5;
         gridBag.gridx = 0;
         gridBag.gridy = 0;
         moreMunnies.setBounds(20,20,600,75);
         moreMunnies.add(listOfMunnies, gridBag);
-        howManyMunnies = new JTextField ("How many munnies do you want to add?");
+        howManyMunnies = new JTextField ("Munnies to add");
         howManyMunnies.setEditable(true);
-        //howManyMunnies.addActionListener(e -> {        });
+        howManyMunnies.addFocusListener(this);
         gridBag.gridx = 1;
         moreMunnies.add(howManyMunnies,gridBag);
         addMunniesBtn = new JButton("Add the Munnies!");
@@ -112,10 +112,25 @@ public class MunnieAddScreen implements ActionListener, FocusListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == addMunniesBtn){ //todo och texten i howManyMunnies är int
-            // howManyMunnies.getText()
-            //todo lägg till beloppet i rätt fil. try öppna -> läs in belopp -> lägg till belopp -> stäng fil
-        }
+        if (e.getSource() == addMunniesBtn){
+            if (isNumeric(howManyMunnies)){
 
+                //todo lägg till beloppet i rätt fil. try öppna -> läs in belopp -> lägg till belopp -> stäng fil
+            } else
+                JOptionPane.showMessageDialog(null, "Behöver ju vara pengar...", "Felaktigt format.", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private static boolean isNumeric(JTextField str)
+    {
+        try
+        {
+            double d = Double.parseDouble(str.getText());
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
     }
 }

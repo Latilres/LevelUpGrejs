@@ -1,15 +1,21 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MunnieAddScreen {
+public class MunnieAddScreen implements ActionListener, FocusListener {
 
     private JFrame thisWindow;
-    JComboBox listOfMunnies;
-    String pickedMunnie;
+    private JComboBox listOfMunnies;
+    private String pickedMunnie;
+    private JTextField howManyMunnies;
+    private JButton addMunniesBtn;
 
     MunnieAddScreen(JFrame theWindow){
         this.thisWindow = theWindow;
@@ -34,8 +40,8 @@ public class MunnieAddScreen {
         ArrayList<String> theMunnies;
         int nrOfMunnies;
         int index = 0;
+        //moreMunnies.setLayout(new GridBagLayout());
         moreMunnies.setOpaque(false);
-        moreMunnies.setSize(600,50);
         //moreMunnies.add(createListOfMunnies());
         theMunnies = getListOfFiles();
         nrOfMunnies = theMunnies.size();
@@ -50,22 +56,33 @@ public class MunnieAddScreen {
             JComboBox cb = (JComboBox)e.getSource();
             pickedMunnie = (String)cb.getSelectedItem();
         });
-        //moreMunnies.add(listOfMunnies);
 
+        // rutnätet som drop-down, munnie-fältet och add-knapp
+        gridBag.fill = GridBagConstraints.HORIZONTAL;
+        //gridBag.anchor = GridBagConstraints.CENTER;
+        gridBag.weightx = 0.5;
         gridBag.gridx = 0;
         gridBag.gridy = 0;
-        gridBag.fill = GridBagConstraints.HORIZONTAL;
-        gridBag.anchor = GridBagConstraints.CENTER;
+        moreMunnies.setBounds(20,20,600,75);
         moreMunnies.add(listOfMunnies, gridBag);
-        gridBag.gridy++;
-        gridBag.insets = new Insets(50,0,0,0);
-        
+        howManyMunnies = new JTextField ("How many munnies do you want to add?");
+        howManyMunnies.setEditable(true);
+        //howManyMunnies.addActionListener(e -> {        });
+        gridBag.gridx = 1;
+        moreMunnies.add(howManyMunnies,gridBag);
+        addMunniesBtn = new JButton("Add the Munnies!");
+        addMunniesBtn.addActionListener(this);
+        gridBag.gridx = 2;
+        moreMunnies.add(addMunniesBtn, gridBag);
+
+        thisWindow.add(moreMunnies);
+        thisWindow.setVisible(true);
     }
 
     private ArrayList<String> getListOfFiles(){
         ArrayList<String> differentMunnies = new ArrayList<>();
         try {
-            File folder = new File("D:\\skola\\java\\LevelUpGrejs");
+            File folder = new File(System.getProperty("user.dir"));
             File[] listOfFiles = folder.listFiles();
             if (listOfFiles == null)
                 return differentMunnies;
@@ -78,5 +95,27 @@ public class MunnieAddScreen {
             e.printStackTrace();
         }
         return differentMunnies;
+    }
+
+    public void focusGained(FocusEvent e) {
+        if (e.getSource() == howManyMunnies) {
+            howManyMunnies.setText("");
+        }
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        if (e.getSource() == howManyMunnies && howManyMunnies.getText().equals("")) {
+            howManyMunnies.setText("No munnies?");
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == addMunniesBtn){ //todo och texten i howManyMunnies är int
+            // howManyMunnies.getText()
+            //todo lägg till beloppet i rätt fil. try öppna -> läs in belopp -> lägg till belopp -> stäng fil
+        }
+
     }
 }

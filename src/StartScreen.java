@@ -11,14 +11,17 @@ public class StartScreen {
 
     private JFrame theWindow;
     private boolean addMunniesExist;
+    private boolean newMunniesExist;
     private boolean showMunniesExist;
     private MunnieAddScreen munnieAddObj;
+    private NewMunniesScreen newMunniesObj;
+    private MunnieShowScreen showMunniesObj;
 
     public static void main(String[] args){
         new StartScreen();
     }
 
-    private StartScreen(){
+    StartScreen(){
         createTheWindow();
         createTheButtons();
     }
@@ -79,20 +82,39 @@ public class StartScreen {
                     addMunniesExist = true;
                     munnieAddObj = new MunnieAddScreen(theWindow);
                 }
-
             }
         });
-        // close
-        JButton closeButton = new JButton("Noooo!");
-        closeButton.setBounds(255,40,80,30);
+        // add new munnies
+        JButton newMunniesButton = new JButton("New Munnies!");
+        newMunniesButton.setBounds(225,40,120,30);
+        newMunniesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                theWindow.setVisible(false);
+                if (!newMunniesExist){
+                    newMunniesExist = true;
+                    newMunniesObj = new NewMunniesScreen(theWindow);
+                }
+            }
+        });
         // showMunnies
         JButton showMunnies = new JButton("Look at all the munnies!");
         showMunnies.setBounds(420, 20, 170, 30);
         showMunnies.setBorder(new LineBorder(Color.MAGENTA));
+        showMunnies.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                theWindow.setVisible(false);
+                if (!showMunniesExist){
+                    showMunniesExist = true;
+                    showMunniesObj = new MunnieShowScreen(theWindow);
+                }
+            }
+        });
 
         pnlButton.setBounds(20,270,600,100);
         pnlButton.add(addMunnies);
-        pnlButton.add(closeButton);
+        pnlButton.add(newMunniesButton);
         pnlButton.add(showMunnies);
         theWindow.add(pnlButton);
     }

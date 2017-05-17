@@ -37,13 +37,9 @@ public class MunnieAddScreen implements ActionListener, FocusListener {
     }
 
     private void createTheAddMunniesPart(){
-        //GridBagConstraints gridBag = new GridBagConstraints();
-        //GridBagConstraints gridBag2 = new GridBagConstraints();
-        //JPanel moreMunnies = new JPanel();
-        //moreMunnies.setOpaque(false);
-        JPanel addNewMunniesPnl = new JPanel();
-        addNewMunniesPnl.setLayout(new FlowLayout());
-        addNewMunniesPnl.setOpaque(false);
+        GridBagConstraints gridBag = new GridBagConstraints();
+        JPanel moreMunnies = new JPanel();
+        moreMunnies.setOpaque(false);
         // ~~~~~~~~~~~~~~Borde orka fixa funktion~~~~~~~~~~~~~~~~~~~~~~~~
         ArrayList<String> theMunnies;
         int nrOfMunnies;
@@ -65,14 +61,14 @@ public class MunnieAddScreen implements ActionListener, FocusListener {
         });
         // ~~~~~~~~~~~~~~till hit~~~~~~~~~~~~~~~~~~~~~~~~
         // rutnätet som drop-down, munnie-fältet och add-knapppen använder
-/*        gridBag.fill = GridBagConstraints.HORIZONTAL;
+        gridBag.fill = GridBagConstraints.HORIZONTAL;
         gridBag.anchor = GridBagConstraints.NORTHWEST;
         gridBag.weightx = 0.5;
         gridBag.gridx = 0;
         gridBag.gridy = 0;
-        moreMunnies.setBounds(20,20,500,100);
+        moreMunnies.setBounds(60,160,500,100);
         moreMunnies.add(listOfMunnies, gridBag);
-        howManyMunnies = new JTextField ("Munnies to add");
+        howManyMunnies = new JTextField ("How many munnies to add");
         howManyMunnies.setEditable(true);
         howManyMunnies.addFocusListener(this);
         howManyMunnies.setForeground(Color.GRAY);
@@ -81,31 +77,18 @@ public class MunnieAddScreen implements ActionListener, FocusListener {
         addMunniesBtn = new JButton("Add the Munnies!");
         addMunniesBtn.addActionListener(this);
         gridBag.gridx = 2;
-        moreMunnies.add(addMunniesBtn, gridBag);*/
-
-        // rutnätet för att lägga till nya stipulations
-        JTextField addNewMunnies = new JTextField("What should the new munnie be called?");
-        addNewMunnies.setBounds(0, 60, 170, 30);
-        /*
-        gridBag2.fill = GridBagConstraints.HORIZONTAL;
-        gridBag2.anchor = GridBagConstraints.WEST;
-        gridBag2.gridy = 0;
-        gridBag2.gridx = 0;
-        //addNewMunnies.setBounds(20,100,600,100);
-        //addNewMunnies.add(listOfMunnies, gridBag);
-        newMunnies = new JTextField("What should the new munnie be called?");
-        addNewMunnies.add(newMunnies, gridBag2);
-        gridBag2.gridx = 1;
-        addNewMunniesBtn = new JButton("More things!");
-        addNewMunniesBtn.addActionListener(this);
-        addNewMunnies.add(addNewMunniesBtn, gridBag2);
-
+        moreMunnies.add(addMunniesBtn, gridBag);
+        JButton backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                thisWindow.setVisible(false);
+                    StartScreen woop = new StartScreen();
+            }
+        });
+        gridBag.gridy = 2;
+        moreMunnies.add(backBtn);
         thisWindow.add(moreMunnies);
-        //thisWindow.add(addNewMunnies);
-        thisWindow.setVisible(true);*/
-        addNewMunniesPnl.setBounds(20, 200, 600, 50);
-        addNewMunniesPnl.add(addNewMunnies);
-        thisWindow.add(addNewMunniesPnl);
     }
 
     private ArrayList<String> getListOfFiles(){

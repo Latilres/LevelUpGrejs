@@ -7,6 +7,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class MunnieAddScreen implements ActionListener, FocusListener {
@@ -131,13 +132,23 @@ public class MunnieAddScreen implements ActionListener, FocusListener {
         if (e.getSource() == addMunniesBtn){
             if (isNumeric(howManyMunnies)){
                 int munniesToAddInt = Integer.parseInt(howManyMunnies.getText());
+                int munniesToLog = munniesToAddInt;
+                int munniesTotal = munniesToAddInt;
 
                 String theFileName = (pickedMunnie + ".txt");
                 File theFile = new File(theFileName);
+                File allTheMunniesFile = new File(System.getProperty("user.dir") + "/allmänt.txt");
                 Scanner scan;
+                Scanner allMunniesScan;
                 try{
                     scan = new Scanner(theFile);
                     String munnieInFile = scan.nextLine();
+                    String allTheMunnies;
+                    if (pickedMunnie != "allmänt"){
+                        allMunniesScan = new Scanner(allTheMunniesFile);
+                        allTheMunnies = allMunniesScan.nextLine();
+                        munniesTotal += Integer.parseInt(allTheMunnies);
+                    }
                     munniesToAddInt += Integer.parseInt(munnieInFile);
                     System.out.println(munniesToAddInt);
                 } catch (FileNotFoundException fnfe){
@@ -148,14 +159,31 @@ public class MunnieAddScreen implements ActionListener, FocusListener {
                     String munniesToAddStr = Integer.toString(munniesToAddInt);
                     theWriter.write(munniesToAddStr);
                     theWriter.close();
+                    if (pickedMunnie != "allmänt"){
+                        FileWriter allMunniesWriter = new FileWriter(System.getProperty("user.dir") + "/allmänt.txt");
+                        allMunniesWriter.write(Integer.toString(munniesTotal));
+                        allMunniesWriter.close();
+                    }
                 } catch (IOException ioe){
                     ioe.printStackTrace();
                 }
+                logEverything(munniesToLog);
             } else
                 JOptionPane.showMessageDialog(null, "Behöver ju vara pengar...", "Felaktigt format.", JOptionPane.WARNING_MESSAGE);
             howManyMunnies.setForeground(Color.GRAY);
             howManyMunnies.setText("More?");
         }
+    }
+
+    private void logEverything(int munnieToLog){
+        try {
+            PrintWriter out = new PrintWriter(new FileWriter("loggedMunnies.log", true));
+            out.println(new Date().toString() + " - " + pickedMunnie + ": " + munnieToLog);
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private static boolean isNumeric(JTextField str) {
